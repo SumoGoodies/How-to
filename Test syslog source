@@ -1,0 +1,14 @@
+
+
+UDP:
+
+nc -w0 -u -v 127.0.0.1 1515 <<< "Test UDP sylog message"
+
+TCP:
+
+nc -w0 -t -v 127.0.0.1 1515 <<< "Test TCP sylog message" 
+------
+
+to use 
+nc as listener
+nc -l -u 514
