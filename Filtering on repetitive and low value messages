@@ -1,0 +1,37 @@
+This is a living document (9/4/2015)  All points are purely based on the author's personal view.  
+
+---------
+Windows Events: 4656/4658: A handle to an object was requested/closed
+
+These logs shows which objects are requested/closed.  An object can be an executable or an dll.  These are safe to ignore.  The actually accesses are 4663.
+
+
+---------
+Windows Events: 4661: A handle to an object was requested
+
+This is similar to 4656 and it’s safe to ignore.
+
+
+---------
+Windows Events: 4663: An attempt was made to access an object
+
+This one is not recommended to ignore blindly.  Explicit known exe and dll should be ignored.
+
+
+
+
+-------------
+Windows Events: 4690: An attempt was made to duplicate a handle to an object
+
+This one is not recommended to ignore blindly.  Explicit known exe and dll should be ignored.
+
+
+
+-----------
+Windows Events: 5xxx
+
+5000 ranges covered a whole lot security event, ranging from Windows connection allowed to blocked to FW/IPSec services started/stopped.  This filter needs to be detailed.
+
+Event 5156 makes up 70+% of the 5000 events volume.  Event 5156 is tracking “connection made” from source IP/port to destination IP/Port.  The most reported connections (90% of 5156) are made for port 137/25/8, which are 
+
+DNS/NetBios/SMTP/Ping service.  Those services are fairly stable and not currently known as vulnerable so they can be safely ignored for now.  The rest of the connections, per various security papers, should be reviewed periodically, thus shouldn’t be filter out.
