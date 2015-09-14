@@ -1,0 +1,18 @@
+
+1.  Save the data to a local Sumo reference table periodically (ie: daily).. for example:
+
+   | avg(blah) as avg_blah_ref, sum(blah) as sum_blah_ref, count(blah) as count_blah_ref by src_ip //, or whatever
+   | "key12345" as key
+   | save shared/blah/reference.csv
+   
+   that will save those value, keyed by "key12345" into a refence table
+   
+   
+2.  To compare and lookup, you can do the following every hour or 10min:
+
+   | avg(blah) as avg_blah, sum(blah) as sum_blah, count(blah) as count_blah by src_ip //, or whatever
+   | "key12345" as key
+   | lookup avg_blah_ref, sum_blah_ref from shared/blah/reference.csv on key=key
+   // decsion points
+   | where avg_blah > avg_blah_ref
+   
