@@ -1,0 +1,4 @@
+
+; correct the path to the download URL.. Ask Sumo if you don't know it.
+
+@powershell -NoProfile -ExecutionPolicy Bypass -InputFormat none -Command "&{(new-object net.webclient).DownloadFile(\"https://collectors.sumologic.com/rest/download/XXXX\",\"$pwd/sumo.exe\"); start-process \"$pwd/sumo.exe\" \"-q\"}"
