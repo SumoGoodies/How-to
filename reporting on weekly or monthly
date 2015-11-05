@@ -1,0 +1,30 @@
+First, if you run a report against more than 30 days of data, make sure your data is in a view or a partition..
+
+
+For monthly on the first of the month.. run this 
+
+_index=sumologic_volume _sourceCategory="sourcehost_volume"
+| formatDate(now(),"d") as curDay 
+| where curDay="1"
+| "do your thing" as here 
+
+
+For up to date this month.. run this daily for the last 31 days, but only accumulate up to date.
+
+_index=sumologic_volume  _sourceCategory="sourcehost_volume"
+| parse regex "(?<sourcehost>\"[^\"]+\")\:\{\"sizeInBytes\"\:(?<bytes>\d+),\"count\"\:(?<count>\d+)\}" multi
+| timeslice 1d
+| formatDate(now(),"M") as curMonth 
+| formatDate(fromMillis(_timeslice),"M") as MiY 
+| where MiY=curMonth
+| bytes/1024/1024/1024 as gbytes| sum(gbytes) as gbytes by _timeslice
+
+
+
+For weekly
+schedule this query to run daily at x:xx time against -7 days, but only really run it on Thursday
+
+index=sumologic_volume sourceCategory="sourcehost_volume"
+| formatDate(now(),"E") as curDay 
+| where curDay="Thu"
+| "do your thing" as here
