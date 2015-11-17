@@ -16,3 +16,18 @@ and the result will be something like
 
 #	cookies	hasdc	total_lines	request_with_cookie_pct	pct_cookie_has_dc
 1	2,517,647	2,444,952	2,754,683	91.39516	97.11258
+
+
+------
+Some people would ask, what if I want to see either this or that as a percentage.. there is nothing to stop anyone doing (a or b).
+
+for example:
+| cookie matches "*HD_DC*" ? "1" : "0" as hasDCcookie 
+| cookie matches "*MCC_THROTTLE*" ? "1": "0" as hasMCC
+| (cookie matches "*HD_DC*" or cookie matches "*MCC_THROTTLE*") ? "1" : "0" as hasEither
+| cookie matches "*" ? "1" : "0" as hasCookie 
+| sum(hascookie) as cookies, sum(hasDCcookie) as hasDC, sum(hasMCC) as hasMCC, sum(hasEither) as hasEither, count as total_lines
+| cookies*100/total_lines as request_with_cookie_pct
+| hasDC*100/cookies as pct_cookie_has_DC
+| hasMCC*100/cookies as pct_cookie_has_MCC
+| hasEither*100/cookies as pct_cookie_hasEither
