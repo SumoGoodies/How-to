@@ -12,3 +12,7 @@ Something like below would be helpful.
 | hasDC*100/cookies as pct_cookie_has_DC
 
 and the result will be something like
+
+
+#	cookies	hasdc	total_lines	request_with_cookie_pct	pct_cookie_has_dc
+1	2,517,647	2,444,952	2,754,683	91.39516	97.11258
