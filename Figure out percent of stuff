@@ -1,0 +1,14 @@
+I've been asked this about once a month.. here is it.
+
+Let's suppose I'm looking at a bunch webserver log of some kind.  In some messages, you'll have cookie fields, and sometimes cookies contains a specific HD_DC cookie.
+Now, you want to know what percentage of the request contains the cookie field, and what percent of the cookies has HD_DC cookie.
+
+Something like below would be helpful.
+
+| cookie matches "*HD_DC*" ? "1" : "0" as hasDCcookie 
+| cookie matches "*" ? "1" : "0" as hasCookie 
+| sum(hascookie) as cookies, sum(hasDCcookie) as hasDC, count as total_lines
+| cookies*100/total_lines as request_with_cookie_pct
+| hasDC*100/cookies as pct_cookie_has_DC
+
+and the result will be something like
