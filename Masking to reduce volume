@@ -6,3 +6,5 @@ Those cookies can be anywhere in the cookie string.
 "cookie":"abc=123;
 
  cookie\":\"(\S+?)(?:KICKASS|MCC_OFF|MCC_THROTTLE)
+
+NOT DONE.. to be complete.. ping Monty if you need this now.
