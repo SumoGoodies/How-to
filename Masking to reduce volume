@@ -1,0 +1,8 @@
+Sometime you got to do what you need to do to trim some unwanted data and this is classical in cookies.
+
+Let's say you have some long cookies, and you wanted only 3 (say KICKASS|MCC_1|MCC_2) that you are interested and you careless about the others.  
+Those cookies can be anywhere in the cookie string.
+
+"cookie":"abc=123;
+
+ cookie\":\"(\S+?)(?:KICKASS|MCC_OFF|MCC_THROTTLE)
