@@ -1,0 +1,18 @@
+There are tons of information that Akamai can deliver to you.. depends on use-case.. the following can be used to mask 
+the Akamai inputs.
+
+Type	Fitler Name	Content	Mask
+exclude	filter out sure-route	^.*sureroute-test-object.html.*	
+mask	Trim behind HD_DC	HD_DC%3d\S+?%3b(\S+?)(?:MCC_OFF|MCC_THROTTLE|\")	_space_
+mask	Filter out before Key cookies	cookie\":\"(\S+?)(?:HD_DC|MCC_OFF|MCC_THROTTLE|\")	_space_
+mask	Trim after MCC_OFF	MCC_OFF%3d\S+?%3b(\S+?)(?:HD_DC|MCC_THROTTLE|\")	_space_
+mask	Header	^\{(\"type\":\"cloud_monitor\",\"format\":\"default\",\"version\":\"\d.\d\",)\"id\"	_space_
+mask	geo	,(\"geo\":\{[^\}]*}).*	_space_
+mask	waf	,(\"waf\":\{[^\}]*}).*	_space_
+mask	network	,(\"network\":\{[^\}]*}).*	_space_
+mask	response header	(\"respHdr\":\{.*?\})	_space_
+mask	trim before cookie	\"reqHdr\":\{(.+?)\"cookie	_space_
+mask	trim after the cookie	\"cookie\":\".*?\"(.*?)\}	_space_
+mask	trim netperf	\"netPerf\":\{(\"\S+?)\"(?:cacheStatus|edgeIP)	_space_
+mask	UA	\"UA\":\"(\S+?)\"	_space_
+mask	trim netperf middle	\"(?:cacheStatus|edgeIP)\":\"\S+?\",(\S+?)\"(?:edgeIP|cacheStatus)	_space_
