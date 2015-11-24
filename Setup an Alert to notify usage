@@ -1,0 +1,13 @@
+Per Latimer at Sumo
+
+The most common request I've received is: can you tell me when I've gone over my plan for the day. I typically set up the search below to run every 4 hours that looks at the data volume for "Today." It alerts the customer when they've hit their plan quota and gives them the list of collectors that are sending the most data, so they can investigate further. 
+
+* _index=sumologic_volume
+ |where _sourceCategory="collector_volume"
+| parse regex "(?<collector>\"[^\"]*\")\:\{\"sizeInBytes\"\:(?<bytes>\d+),\"count\"\:(?<count>\d+)\}" multi
+| bytes/1024/1024/1024 as gbytes
+| sum(gbytes) as gbytes by collector
+| total gbytes as total
+| gbytes / total as pct_of_total
+| where total > [hard-coded customer GB plan size]
+| sort by gbytes
