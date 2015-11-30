@@ -1,0 +1,8 @@
+A customer asked, so here is the super simple example:
+
+say we want to compute the duration time for sessions.. assume session_id is already parsed out per FER.  If not, parse
+that out before the transaction operator.
+
+_sourceCategory=*vpn*  ((New session) OR (Session deleted)) | transaction  on session_id with "*New session*" as started , with "*Session deleted*"  as ended 
+| where started=1 and ended=1 and _start_time<_end_time
+| (_end_time-_start_time)/1000 as duration_seconds 
