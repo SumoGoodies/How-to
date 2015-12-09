@@ -1,0 +1,9 @@
+_index=HSLOG_PART1 OR _index=SPRING_CONTROLLER_STATS_PART1
+| join
+(parse field=query_string "cguid=*&" as cguid | where _source="HSLOG") as
+hslog,
+(where _source="SPRING_CONTROLLER_STATS") as spring
+ON hslog.cguid=spring.site_server_cookie_id
+
+
+You will need the () and you can have a just a where inside of ().
