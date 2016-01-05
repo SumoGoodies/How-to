@@ -1,0 +1,13 @@
+Credit goes to Rishma Gupta for coming up with the original query..
+
+The idea here is first select the threee type of logs that you are interested (counting _raw is a story in its own, not to be shared here).
+
+Join needs parts..
+
+Part 1 is extract the username and session id
+part 2 is actually a transaction function detecting start/end session time.
+
+
+_sourceCategory=*vpn*  ((New session) OR (Session deleted) OR (Username)) | count _raw,session_id,_messagetime 
+|join (parse "Username '*'" as username) as t2, (transaction  on session_id with "*New session*" as started , with "*Session deleted*"  as ended | where started>0 and ended=0 | (now()-_start_time)/60000 as duration_mins) as t1 on t2.session_id =t1.session_id | fields t1_session_id, t2_username, t1_duration_mins| sort by t1_duration_mins
+Status API Training Shop Blog About Pricing
