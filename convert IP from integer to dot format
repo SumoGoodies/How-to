@@ -1,0 +1,9 @@
+Per Chuck Johnson...
+
+
+| int(src_ip/(256*256*256)) as octet1
+| int((src_ip-(octet1*256*256*256))/(256*256)) as octet2
+| int((src_ip-(octet1*256*256*256)-(octet2*256*256))/(256)) as octet3
+| int((src_ip-(octet1*256*256*256)-(octet2*256*256)-(octet3*256))/1) as octet4
+| concat(octet1,".",octet2,".",octet3,".",octet4) as src_ip
+| fields -octet1,octet2,octet3,octet4
