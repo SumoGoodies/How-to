@@ -1,0 +1,1 @@
+openssl s_client -connect syslog.collection.us2.sumologic.com:xxxx
