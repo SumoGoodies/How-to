@@ -1,0 +1,15 @@
+Assuming convert from a decimal digit to 4 digits binary
+
+| extract "(?<ip_digit>\d{3}?)\." 
+| count ip_digit
+| ip_digit as a_dec
+| replace(a_dec,"0","0000") as a_dec
+| replace(a_dec,"1","0001") as a_dec
+| replace(a_dec,"2","0010") as a_dec
+| replace(a_dec,"3","0011") as a_dec
+| replace(a_dec,"4","0100") as a_dec
+| replace(a_dec,"5","0101") as a_dec
+| replace(a_dec,"6","0110") as a_dec
+| replace(a_dec,"7","0111") as a_dec
+| replace(a_dec,"8","1000") as a_dec
+| replace(a_dec,"9","1001") as a_dec
