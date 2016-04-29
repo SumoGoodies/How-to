@@ -1,0 +1,3 @@
+add this as an additional datapoint to pull..
+
+select * from Win32_PerfFormattedData_PerfProc_Process
