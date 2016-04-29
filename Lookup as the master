@@ -1,0 +1,19 @@
+Here is the logic.. Took me some time to think it through.  Thanks goes to Rishma for asking the tough question.
+
+Save a one liner with a common key in the lookup table.  For example:
+
+key           value
+key123        a,b,c,d
+
+When used as a lookup, you do something like this..
+
+blah blah | extract xyz | count xyz | "key123" as blah_key | lookup value from shared/the_lookup on key=blah_key
+| extract field=value "(?<v>[^,]+)" multi
+| (xyz=v) ? "1" : "0" as matched
+| sum(matched) by v | where _sum=0
+
+So that means if v exists in xyz, then the _sum will be 1.  If v does not, then the _sumo will be 0.
+
+Likewise, if you do a sum(matched) by xyz, that would means left join from xyz.
+
+have fun,
