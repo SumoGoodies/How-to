@@ -1,0 +1,18 @@
+Configure OpenVPN-AS server sysloging.  Reference https://docs.openvpn.net/docs/access-server/openvpn-access-server-command-line-tools.html#log-database
+
+0. Goto Sumo collectors page, create a syslog source listening to a port, ie: TCP/1514
+
+1.  You need to be able to SSH into the OpenVPN server.  
+
+2.  Add SYSLOG=true at the end of /usr/local/openvpn_as/etc/as.conf
+
+3.  Restart the OpenVPN AS service. 
+    /etc/init.d/openvpnas restart
+
+4. sudo vi /etc/rsyslog.d/99Sumo.conf and add one liner
+*.* @@sumo_collector_ip:port
+
+5. restart the rsyslog.d by running sudo service rsyslog restat
+
+6.  Validate in Sumo that logs are flowing.
+
