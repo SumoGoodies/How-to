@@ -8,11 +8,15 @@ Configure OpenVPN-AS server sysloging.  Reference https://docs.openvpn.net/docs/
 
 3.  Restart the OpenVPN AS service. 
     /etc/init.d/openvpnas restart
+    
+    After restart, you should be able to validate the openvpn is actually logging into /var/log/syslog
 
 4. sudo vi /etc/rsyslog.d/99Sumo.conf and add one liner
 *.* @@sumo_collector_ip:port
 
+    You can validate the connectivity by doing a simple telnet to the collector:port testing (assuming TCP used).  You might need to open the firewall.
+
 5. restart the rsyslog.d by running sudo service rsyslog restat
 
-6.  Validate in Sumo that logs are flowing.
+6.  Validate in Sumo that logs are flowing.  
 
