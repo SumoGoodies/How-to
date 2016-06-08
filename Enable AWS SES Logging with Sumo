@@ -1,0 +1,13 @@
+Because AWS SES does not log to CloudTrial, AWS recommended use SNS as a mean to get notifications on email services.
+
+1.  In Sumo, create an HTTP source and copy that URL, choose treate each message as a whole message (one of the options near the bottom).
+2.  In AWS-SNS, create a topic, call it SES_Notification (or whatever you want it to be called).
+3.  In AWS-SNS, create a subscription, and enter the URL from Sumo.
+4.  in AWS-SNS, click on the confirmation request.  This will fire an request message to Sumo.
+5.  In Sumo, look for the request message and there is an embedded "confirmation" URL.  Copy that.
+6.  In AWS-SNS, click on the confirmation button, and paste in the confirmation URL.  This will validate Sumo as a subscriber.
+
+If you are just concerned about enabling SNS integration to Sumo, you are done.
+7.  In SES, select a "verified" sender email and choose details.  
+    You will have one or more.  So, if you want to enable for more than one, you will need to repeat the next step.
+8.  Choose the "Notification" section, and enable those and notify the SNS subject created earlier.    
