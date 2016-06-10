@@ -16,7 +16,8 @@ Configure OpenVPN-AS server sysloging.  Reference https://docs.openvpn.net/docs/
 
     You can validate the connectivity by doing a simple telnet to the collector:port testing (assuming TCP used).  You might need to open the firewall.
 
-5. restart the rsyslog.d by running sudo service rsyslog restat
+5. restart the rsyslog.d by running sudo service rsyslog restart
 
 6.  Validate in Sumo that logs are flowing.  
 
+----------------- I'm trying to find a secondary way to send up the syslog to Sumo directly to the cloud, stay put --------
