@@ -16,4 +16,20 @@ So that means if v exists in xyz, then the _sum will be 1.  If v does not, then 
 
 Likewise, if you do a sum(matched) by xyz, that would means left join from xyz.
 
+>> July 5th, 2016.. 
+So, what happens if you need to validate say a master list of RPMs that you want to make sure are on all the hosts..
+first, create you RPM lookup master LINE.. not a table, called it rpm.txt.
+key      value
+----    ------
+key123   rpm-abc-1.0, rpm-xyz-2.0,blah1, blah2, blah3...
+
+Then you extract the RPM and the hostname
+
+blah blah | extract host, host_rpm | count host, host_rpm
+| "key123" as blah_key
+| lookup value from rpm.txt on key=blah_key
+| extract field=value "(?<v>[^,]+)" multi
+| (v=host_rpm) ? "1" : "0" as matched  // this line means the item in the master list showed up in query
+| sum(matched) by host,v | where _sum=0
+
 have fun,
