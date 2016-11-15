@@ -1,0 +1,15 @@
+AWS Tags can be created to better manage resources. Those events are recorded in CloudTrail.
+
+One can create a Sumo view (ie: aws_tags) with below.
+("eventName\":\"CreateTags\"" or "eventName\":\"AddTags\",") !errorCode | parse "eventSource\":\"*\"" as event_source | parse "loadBalancerNames\":[\"*\"]" as resource_id nodrop | parse "aRN\":\"*\"" as resource_id nodrop | parse "pipelineId\":\"*\"" as resource_id nodrop | parse "fileSystemId\":\"*\"" as resource_id nodrop | parse "resourceName\":\"*\"" as resource_id nodrop | parse "resourceId\":\"*\"" as resource_id nodrop | extract "key\":\"(?<key>[^\"]+?)\",\"value\":\"(?<value>[^\"]+?)\"" multi nodrop | extract "value\":\"(?<value>[^\"]+?)\",\"key\":\"(?<key>[^\"]+?)\"" multi nodrop | where !isEmpty(value) | toLowerCase(key) as key | max(_messagetime) by event_source, resource_id, key, value | fields - _max
+
+
+
+From the view, one would create a schedule search to run/save the data into lookup
+_view=aws_tags | max(_messagetime) by event_source, resource_id, key, value | fields - _max | save append /shared/aws_tags
+
+every 15min.
+
+
+
+
