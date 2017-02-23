@@ -1,0 +1,7 @@
+Here is a public available one that will echo whatever your webhook calls to it back to you.
+
+https://echo-webhook.herokuapp.com/blahblah
+
+the full write up is at
+
+http://www.jamesward.com/2014/06/11/testing-webhooks-was-a-pain-so-i-fixed-the-glitch
