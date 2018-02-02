@@ -1,0 +1,3 @@
+When you have Lambda functions created by multiple teams and no one wants to manually configuring log group subscription, this blog is worth the read.
+
+http://blog.davidablack.net/2016/08/17/a-log-reflector-for-aws-lambda/
