@@ -1,0 +1,45 @@
+# READ FIRST
+# https://help.sumologic.com/Send-Data/Sources/02Sources-for-Hosted-Collectors/HTTP-Source/Upload-Data-to-an-HTTP-Source
+
+import requests, json, calendar
+from time import gmtime, strftime
+
+SUMO_HTTP_ENDPOINT="https://endpoint1.collection.us2.sumologic.com/receiver/v1/http/3-tPQlJq8b7wI4BQFmFuj_gA1l02Q=="
+
+# Generate a UTC timestamp
+def getTimeStamp():
+    timeStamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    timeStamp += "Z"
+    return timeStamp
+
+# JSON message
+session = requests.Session()
+headers = {"Content-Type": "application/json", "Accept" : "application/json"}
+data = {'timestamp':getTimeStamp(),
+        'msg':'This is a json message.'}
+r = session.post(SUMO_HTTP_ENDPOINT, headers=headers, data=json.dumps(data))
+print (r.status_code)
+
+# Log message
+headers = {"Content-Type": "text/html", "Accept" : "application/json"}
+msg = getTimeStamp() + ": regular log line\n"
+r = session.post(SUMO_HTTP_ENDPOINT, headers=headers, data=msg)
+print (r.status_code)
+
+# Metrics in Graphite
+epochTimer = str(calendar.timegm(gmtime()))
+
+headers = {"Content-Type": "application/vnd.sumologic.graphite", "Accept" : "application/json"}
+msg = "prod.lb-1.cpu 87.2 " + epochTimer + "\nprod.lb-1.memory 32390 " + epochTimer + "\n\
+prod.lb-2.cpu 84.6 " + epochTimer + "\nprod.lb-2.memory 32250 " + epochTimer
+r = session.post(SUMO_HTTP_ENDPOINT, headers=headers, data=msg)
+print (r.status_code)	
+  
+# Metrics in Carbon format
+headers = {"Content-Type": "application/vnd.sumologic.carbon2", "Accept" : "application/json"}
+msg ="cluster=prod node=lb-1 metric=cpu  ip=2.2.3.4 team=infra 87.2 " + epochTimer + "\n\
+cluster=prod node=lb-1 metric=memory  ip=2.2.3.4 team=infra 32390 " + epochTimer + "\n\
+cluster=prod node=lb-2 metric=cpu  ip=2.2.3.5 team=infra 84.6 " + epochTimer + "\n\
+cluster=prod node=lb-2 metric=memory  ip=2.2.3.5 team=infra 32250 " + epochTimer
+r = session.post(SUMO_HTTP_ENDPOINT, headers=headers, data=msg)
+print (r.status_code)	
